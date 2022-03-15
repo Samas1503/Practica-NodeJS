@@ -1,0 +1,82 @@
+<%- include("templates/cabecera", {tituloWeb:'Crear Nueva Mascota'}) %>
+    <div class="container mt-5">
+        <h1>Detalle Mascota</h1>
+        <% if (error) { %>
+            <p>
+                <%= mensaje %>
+            </p>
+            <a href="/mascotas" class="btn btn-dark btn-block">Volver a Mascotas</a>
+            <% } else { %>
+                <form id="formularioEditar" data-id="<%= mascota.id %>">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<%= mascota.nombre %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="raza">Raza</label>
+                        <input type="text" class="form-control" id="raza" name="raza" value="<%= mascota.raza %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" value="<%= mascota.descripcion %>">
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">Editar</button>
+                </form>
+                <button type="submit" data-id="<%= mascota.id %>" id="btnEliminar" class="btn btn-danger btn-block mt-3">Eliminar</button>
+
+                <% } %>
+    </div>
+    <script>
+        const btnEliminar = document.querySelector('#btnEliminar');
+        btnEliminar.addEventListener('click', async() => {
+            const id = btnEliminar.dataset.id;
+            try {
+                const data = await fetch(`/mascotas/${id}`, {
+                    method: 'delete'
+                })
+                const res = await data.json();
+                if (res.estado) {
+                    window.location.href = '/mascotas'
+                } else {
+                    console.log(res);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        })
+
+
+        const formularioEditar = document.querySelector('#formularioEditar');
+        formularioEditar.addEventListener('submit', async(e) => {
+            e.preventDefault();
+
+            const nombre = formularioEditar.elements['nombre'].value
+            const raza = document.querySelector('#raza').value
+            const descripcion = document.querySelector('#descripcion').value
+            const id = formularioEditar.dataset.id;
+
+            try {
+                const data = await fetch(`/mascotas/${id}`, {
+                    method: 'put',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre: nombre,
+                        raza: raza,
+                        descripcion: descripcion
+                    })
+                });
+                const res = await data.json();
+                console.log(res);
+                if (res.estado) {
+                    window.location.href = '/mascotas'
+                } else {
+                    console.log(res);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        })
+    </script>
+    <%- include("templates/footer") %>
