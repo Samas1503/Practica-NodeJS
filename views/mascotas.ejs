@@ -1,6 +1,8 @@
-<%- include("templates/cabecera", {tituloWeb:'Index'}) %>
+<%- include("templates/cabecera", {tituloWeb:'Mascotas'}) %>
 
     <div class="container">
+        <h1>CRUD MongoDB</h1>
+        <a href="/mascotas/crear" class="btn btn-primary btn-lg btn-block">Crear</a>
         <table class="table">
             <thead>
                 <tr>
@@ -27,7 +29,9 @@
                             <td>
                                 <%= mascota.descripcion %>
                             </td>
-                            <td></td>
+                            <td>
+                                <a href="/mascotas/<%= mascota.id %>" class="btn btn-primary">Editar</a>
+                            </td>
                         </tr>
                         <% }) %>
                             <% } %>
