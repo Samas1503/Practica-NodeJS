@@ -8,13 +8,7 @@ const port = process.env.PORT;
 //coneccion a  base de datos
 const mongoose = require('mongoose');
 
-console.log(process.env.USER);
-console.log(process.env.PASSWORD);
-console.log(process.env.DBNAME);
-
-
 const url = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.vl0qv.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
-// const url = `mongodb+srv://${user}:${password}@cluster0.vl0qv.mongodb.net/${dbname}?retryWrites=true&w=majority`;
 
 mongoose.connect(url, {
         useNewUrlParser: true,
